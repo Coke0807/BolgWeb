@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="个人技术博客 – 分享云原生、Kubernetes、后端开发与编程心得" />
+  <title>BolgWeb | 个人技术博客</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/main.js"></script>
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div id="read-progress"></div>
+
+  <!-- ── Navbar ──────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">✍️</div>
+        BolgWeb
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">首页</a></li>
+        <li><a href="post.html">文章详情</a></li>
+        <li><a href="about.html">关于我</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-icon" id="theme-toggle" title="切换主题" aria-label="切换深色/浅色主题">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-label">🚀 欢迎来到我的博客</span>
+        <h1>探索技术的<br /><span style="color:var(--primary)">无限可能</span></h1>
+        <p>专注于云原生、Kubernetes、后端开发与开源技术，记录每一次成长与探索。</p>
+        <div class="hero-actions">
+          <a href="#posts" class="btn btn-primary">📖 开始阅读</a>
+          <a href="about.html" class="btn btn-outline">👋 了解作者</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-value">42</div>
+            <div class="stat-label">篇文章</div>
+          </div>
+          <div>
+            <div class="stat-value">8</div>
+            <div class="stat-label">个分类</div>
+          </div>
+          <div>
+            <div class="stat-value">2K+</div>
+            <div class="stat-label">月访问</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Main Layout ─────────────────────────────────── -->
+  <div class="container main-layout" id="posts">
+
+    <!-- Left: Posts feed -->
+    <main>
+
+      <!-- Search & Filters -->
+      <div class="search-section">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="搜索文章标题、摘要或标签…"
+            aria-label="搜索文章"
+          />
+        </div>
+        <div class="tags-bar" role="group" aria-label="按标签筛选">
+          <button class="tag active" data-tag="all">全部</button>
+          <button class="tag" data-tag="kubernetes">Kubernetes</button>
+          <button class="tag" data-tag="docker">Docker</button>
+          <button class="tag" data-tag="golang">Go</button>
+          <button class="tag" data-tag="linux">Linux</button>
+          <button class="tag" data-tag="python">Python</button>
+          <button class="tag" data-tag="ci/cd">CI/CD</button>
+        </div>
+      </div>
+
+      <!-- Featured Post -->
+      <div style="margin-top:32px;">
+        <article
+          class="post-item featured-card"
+          data-title="深入理解 Kubernetes Pod 调度原理"
+          data-excerpt="本文系统介绍 k8s 调度器的工作机制，包括预选、优选和绑定三个阶段，并通过实例演示自定义调度策略的实现方式。"
+          data-tags="kubernetes docker linux"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">☸️</div>
+          <div class="post-card-body">
+            <div class="featured-label">⭐ 精选文章</div>
+            <div class="post-meta">
+              <span>2026年3月15日</span>
+              <span class="dot">•</span>
+              <span>12 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">深入理解 Kubernetes Pod 调度原理</a></h2>
+            <p class="post-excerpt">
+              本文系统介绍 k8s 调度器的工作机制，包括预选、优选和绑定三个阶段，并通过实例演示自定义调度策略的实现方式，帮助你在生产环境中更好地管控资源分配。
+            </p>
+            <div class="post-tags">
+              <span class="post-tag">Kubernetes</span>
+              <span class="post-tag">Docker</span>
+              <span class="post-tag">Linux</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <a href="post.html" class="btn btn-primary" style="font-size:.8rem;padding:8px 16px;">阅读全文 →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Section Header -->
+      <div class="section-header" style="margin-top:40px;">
+        <h2 class="section-title">最新 <span>文章</span></h2>
+        <span class="text-muted" style="font-size:.85rem;">共 42 篇</span>
+      </div>
+
+      <!-- Posts Grid -->
+      <div class="posts-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px,1fr));">
+
+        <article
+          class="post-card post-item"
+          data-title="使用 Docker Compose 搭建本地开发环境"
+          data-excerpt="一步步配置多容器开发环境，覆盖数据库、缓存与应用服务的联调技巧。"
+          data-tags="docker linux ci/cd"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">🐳</div>
+          <div class="post-card-body">
+            <div class="post-meta">
+              <span>2026年3月10日</span>
+              <span class="dot">•</span>
+              <span>8 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">使用 Docker Compose 搭建本地开发环境</a></h2>
+            <p class="post-excerpt">一步步配置多容器开发环境，覆盖数据库、缓存与应用服务的联调技巧。</p>
+            <div class="post-tags">
+              <span class="post-tag">Docker</span>
+              <span class="post-tag">Linux</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <span class="read-time">8 分钟</span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="post-card post-item"
+          data-title="Go 语言并发模式实战"
+          data-excerpt="深入探讨 goroutine、channel 与 sync 包的使用，通过真实场景理解并发编程。"
+          data-tags="golang"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">🦫</div>
+          <div class="post-card-body">
+            <div class="post-meta">
+              <span>2026年3月5日</span>
+              <span class="dot">•</span>
+              <span>10 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">Go 语言并发模式实战</a></h2>
+            <p class="post-excerpt">深入探讨 goroutine、channel 与 sync 包的使用，通过真实场景理解并发编程的精髓。</p>
+            <div class="post-tags">
+              <span class="post-tag">Go</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <span class="read-time">10 分钟</span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="post-card post-item"
+          data-title="CI/CD 流水线最佳实践"
+          data-excerpt="基于 GitHub Actions 与 ArgoCD 构建端到端 GitOps 自动化部署流水线。"
+          data-tags="ci/cd kubernetes docker"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">⚙️</div>
+          <div class="post-card-body">
+            <div class="post-meta">
+              <span>2026年2月28日</span>
+              <span class="dot">•</span>
+              <span>9 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">CI/CD 流水线最佳实践</a></h2>
+            <p class="post-excerpt">基于 GitHub Actions 与 ArgoCD 构建端到端 GitOps 自动化部署流水线。</p>
+            <div class="post-tags">
+              <span class="post-tag">CI/CD</span>
+              <span class="post-tag">Kubernetes</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <span class="read-time">9 分钟</span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="post-card post-item"
+          data-title="Linux 性能调优指南"
+          data-excerpt="从内核参数到进程优先级，系统性讲解 Linux 服务器性能问题的排查与优化。"
+          data-tags="linux"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">🐧</div>
+          <div class="post-card-body">
+            <div class="post-meta">
+              <span>2026年2月20日</span>
+              <span class="dot">•</span>
+              <span>15 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">Linux 性能调优指南</a></h2>
+            <p class="post-excerpt">从内核参数到进程优先级，系统性讲解 Linux 服务器性能问题的排查与优化方法。</p>
+            <div class="post-tags">
+              <span class="post-tag">Linux</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <span class="read-time">15 分钟</span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="post-card post-item"
+          data-title="Python 异步编程：asyncio 完全指南"
+          data-excerpt="掌握 async/await 语法、事件循环与协程，写出高效的 Python 异步应用。"
+          data-tags="python"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">🐍</div>
+          <div class="post-card-body">
+            <div class="post-meta">
+              <span>2026年2月15日</span>
+              <span class="dot">•</span>
+              <span>11 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">Python 异步编程：asyncio 完全指南</a></h2>
+            <p class="post-excerpt">掌握 async/await 语法、事件循环与协程，写出高效的 Python 异步应用。</p>
+            <div class="post-tags">
+              <span class="post-tag">Python</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <span class="read-time">11 分钟</span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="post-card post-item"
+          data-title="Helm Chart 编写与发布"
+          data-excerpt="从零编写一个生产级 Helm Chart，包含 values、templates 与 hook 的完整讲解。"
+          data-tags="kubernetes ci/cd"
+        >
+          <div class="post-card-img-placeholder" aria-hidden="true">⛵</div>
+          <div class="post-card-body">
+            <div class="post-meta">
+              <span>2026年2月8日</span>
+              <span class="dot">•</span>
+              <span>13 分钟阅读</span>
+            </div>
+            <h2><a href="post.html">Helm Chart 编写与发布</a></h2>
+            <p class="post-excerpt">从零编写一个生产级 Helm Chart，包含 values、templates 与 hook 的完整讲解。</p>
+            <div class="post-tags">
+              <span class="post-tag">Kubernetes</span>
+              <span class="post-tag">CI/CD</span>
+            </div>
+            <div class="post-footer">
+              <div class="author">
+                <div class="avatar">B</div>
+                <span class="author-name">博客作者</span>
+              </div>
+              <span class="read-time">13 分钟</span>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /.posts-grid -->
+
+      <!-- No Results -->
+      <div id="no-results" class="no-results" style="display:none;">
+        <div class="no-results-icon">🔍</div>
+        <h3>未找到相关文章</h3>
+        <p>请尝试其他关键词或标签</p>
+      </div>
+
+    </main>
+
+    <!-- ── Sidebar ───────────────────────────────────── -->
+    <aside class="sidebar">
+
+      <!-- Profile Widget -->
+      <div class="widget profile-widget">
+        <div class="profile-avatar">B</div>
+        <div class="profile-name">博客作者</div>
+        <div class="profile-bio">云原生 & 后端开发工程师 · 热爱开源技术与分享</div>
+        <div class="social-links">
+          <a href="https://github.com/Coke0807" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub">🐙</a>
+          <a href="about.html" class="social-link" title="关于我">👤</a>
+        </div>
+      </div>
+
+      <!-- Recent Posts Widget -->
+      <div class="widget">
+        <div class="widget-title">📰 最近文章</div>
+        <ul class="recent-list">
+          <li class="recent-item">
+            <div class="recent-num">1</div>
+            <div>
+              <a href="post.html">深入理解 Kubernetes Pod 调度原理</a>
+              <div class="recent-date">2026-03-15</div>
+            </div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">2</div>
+            <div>
+              <a href="post.html">使用 Docker Compose 搭建本地开发环境</a>
+              <div class="recent-date">2026-03-10</div>
+            </div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">3</div>
+            <div>
+              <a href="post.html">Go 语言并发模式实战</a>
+              <div class="recent-date">2026-03-05</div>
+            </div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">4</div>
+            <div>
+              <a href="post.html">CI/CD 流水线最佳实践</a>
+              <div class="recent-date">2026-02-28</div>
+            </div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">5</div>
+            <div>
+              <a href="post.html">Linux 性能调优指南</a>
+              <div class="recent-date">2026-02-20</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tag Cloud Widget -->
+      <div class="widget">
+        <div class="widget-title">🏷️ 标签云</div>
+        <div class="tag-cloud">
+          <button class="tag" data-tag="kubernetes" onclick="document.querySelector('[data-tag=kubernetes]').click();document.getElementById('posts').scrollIntoView({behavior:'smooth'})">Kubernetes</button>
+          <button class="tag" data-tag="docker" onclick="document.querySelector('.tags-bar [data-tag=docker]').click();document.getElementById('posts').scrollIntoView({behavior:'smooth'})">Docker</button>
+          <button class="tag" data-tag="golang" onclick="document.querySelector('.tags-bar [data-tag=golang]').click();document.getElementById('posts').scrollIntoView({behavior:'smooth'})">Go</button>
+          <button class="tag" data-tag="linux" onclick="document.querySelector('.tags-bar [data-tag=linux]').click();document.getElementById('posts').scrollIntoView({behavior:'smooth'})">Linux</button>
+          <button class="tag" data-tag="python" onclick="document.querySelector('.tags-bar [data-tag=python]').click();document.getElementById('posts').scrollIntoView({behavior:'smooth'})">Python</button>
+          <button class="tag" data-tag="ci/cd" onclick="document.querySelector('.tags-bar [data-tag=\'ci/cd\']').click();document.getElementById('posts').scrollIntoView({behavior:'smooth'})">CI/CD</button>
+        </div>
+      </div>
+
+    </aside>
+  </div><!-- /.main-layout -->
+
+  <!-- ── Footer ──────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-icon">✍️</div>
+            BolgWeb
+          </div>
+          <p>专注于云原生、Kubernetes 与后端开发的个人技术博客，记录技术成长之路。</p>
+          <div class="social-links" style="justify-content:flex-start;">
+            <a href="https://github.com/Coke0807" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub">🐙</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="post.html">文章详情</a></li>
+            <li><a href="about.html">关于我</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>热门标签</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Kubernetes</a></li>
+            <li><a href="index.html">Docker</a></li>
+            <li><a href="index.html">Go</a></li>
+            <li><a href="index.html">Linux</a></li>
+            <li><a href="index.html">CI/CD</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BolgWeb · 用 ❤️ 构建</span>
+        <span>基于 Nginx · 部署在 Kubernetes</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">↑</button>
+
+</body>
+</html>
