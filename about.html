@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="关于我 – 云原生与后端开发工程师 | BolgWeb 个人技术博客" />
+  <title>关于我 | BolgWeb</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/main.js"></script>
+</head>
+<body>
+
+  <!-- ── Navbar ──────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">✍️</div>
+        BolgWeb
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="post.html">文章详情</a></li>
+        <li><a href="about.html" class="active">关于我</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-icon" id="theme-toggle" title="切换主题" aria-label="切换深色/浅色主题">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── About Hero ──────────────────────────────────── -->
+  <section class="about-hero">
+    <div class="container">
+      <div class="about-hero-inner">
+        <div>
+          <h1>你好，我是 <span style="color:var(--primary)">博客作者</span> 👋</h1>
+          <div class="about-role">☸️ 云原生工程师 · 后端开发者 · 开源爱好者</div>
+          <p class="about-intro">
+            热爱技术，专注于云原生生态与后端系统设计。日常与 Kubernetes、Docker、Go 和 Linux
+            打交道，喜欢把踩过的坑和学到的经验记录下来，希望能帮助到更多人。
+          </p>
+          <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="index.html" class="btn btn-primary">📖 阅读博客</a>
+            <a href="https://github.com/Coke0807" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🐙 GitHub</a>
+          </div>
+        </div>
+        <div class="about-avatar-wrap">
+          <div class="about-avatar">B</div>
+          <div style="font-size:.85rem; color:var(--text-muted);">云原生工程师</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ──────────────────────────────────────── -->
+  <section class="skills-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">技术 <span>技能</span></h2>
+      </div>
+      <div class="skills-grid">
+
+        <div class="skill-card">
+          <div class="skill-icon">☸️</div>
+          <div class="skill-name">Kubernetes</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="88%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🐳</div>
+          <div class="skill-name">Docker</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="92%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🦫</div>
+          <div class="skill-name">Go</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="80%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🐧</div>
+          <div class="skill-name">Linux</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="85%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🐍</div>
+          <div class="skill-name">Python</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="75%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">⚙️</div>
+          <div class="skill-name">CI/CD</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="82%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🗄️</div>
+          <div class="skill-name">MySQL / Redis</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="78%"></div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">📊</div>
+          <div class="skill-name">Prometheus</div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="70%"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experience Timeline ─────────────────────────── -->
+  <section class="timeline-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">工作 <span>经历</span></h2>
+      </div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-date">2024年 – 至今</div>
+          <div class="timeline-title">高级后端工程师</div>
+          <div class="timeline-subtitle">某科技公司</div>
+          <div class="timeline-desc">
+            负责核心微服务的设计与开发，推动容器化改造与 k8s 集群落地，搭建 GitOps 流水线，
+            显著提升团队交付效率与系统稳定性。
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2022年 – 2024年</div>
+          <div class="timeline-title">后端开发工程师</div>
+          <div class="timeline-subtitle">某互联网公司</div>
+          <div class="timeline-desc">
+            参与多个 Go 微服务项目的开发与维护，负责 Docker 镜像构建与 CI/CD 流程改进，
+            协助完成从单体应用到微服务架构的迁移工作。
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2019年 – 2022年</div>
+          <div class="timeline-title">软件工程学士</div>
+          <div class="timeline-subtitle">某大学计算机学院</div>
+          <div class="timeline-desc">
+            专注于分布式系统与云计算方向，毕业设计为基于 Kubernetes 的弹性伸缩微服务平台。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blog Stats ───────────────────────────────────── -->
+  <section style="padding: 0 0 64px;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">博客 <span>统计</span></h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:20px; margin-top:32px;">
+        <div class="skill-card">
+          <div class="skill-icon">📝</div>
+          <div class="skill-name">42 篇文章</div>
+          <div style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">持续更新中</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🏷️</div>
+          <div class="skill-name">8 个分类</div>
+          <div style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">覆盖云原生全栈</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">👁️</div>
+          <div class="skill-name">2K+ 月访问</div>
+          <div style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">感谢每位读者</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">⭐</div>
+          <div class="skill-name">GitHub 开源</div>
+          <div style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">代码全部开源</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ──────────────────────────────────────── -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">联系 <span>我</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">🐙</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">
+              <a href="https://github.com/Coke0807" target="_blank" rel="noopener noreferrer">Coke0807</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">邮箱</div>
+            <div class="contact-value">blog@example.com</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">🌐</div>
+          <div>
+            <div class="contact-label">博客</div>
+            <div class="contact-value">BolgWeb</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-icon">✍️</div>
+            BolgWeb
+          </div>
+          <p>专注于云原生、Kubernetes 与后端开发的个人技术博客，记录技术成长之路。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="post.html">文章详情</a></li>
+            <li><a href="about.html">关于我</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>热门标签</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Kubernetes</a></li>
+            <li><a href="index.html">Docker</a></li>
+            <li><a href="index.html">Go</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BolgWeb · 用 ❤️ 构建</span>
+        <span>基于 Nginx · 部署在 Kubernetes</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">↑</button>
+
+</body>
+</html>

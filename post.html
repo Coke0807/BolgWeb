@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="深入理解 Kubernetes Pod 调度原理 – BolgWeb 个人技术博客" />
+  <title>深入理解 Kubernetes Pod 调度原理 | BolgWeb</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/main.js"></script>
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div id="read-progress"></div>
+
+  <!-- ── Navbar ──────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">✍️</div>
+        BolgWeb
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="post.html" class="active">文章详情</a></li>
+        <li><a href="about.html">关于我</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-icon" id="theme-toggle" title="切换主题" aria-label="切换深色/浅色主题">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Post Hero ───────────────────────────────────── -->
+  <div class="post-hero">
+    <div class="container">
+      <div class="post-hero-inner">
+        <nav class="breadcrumb" aria-label="面包屑导航">
+          <a href="index.html">首页</a>
+          <span>›</span>
+          <a href="index.html">Kubernetes</a>
+          <span>›</span>
+          <span>深入理解 Kubernetes Pod 调度原理</span>
+        </nav>
+        <div class="post-tags" style="margin-bottom:16px;">
+          <span class="post-tag">Kubernetes</span>
+          <span class="post-tag">Docker</span>
+          <span class="post-tag">Linux</span>
+        </div>
+        <h1>深入理解 Kubernetes Pod 调度原理</h1>
+        <div class="post-meta" style="margin-top:16px;">
+          <div class="author">
+            <div class="avatar">B</div>
+            <span class="author-name">博客作者</span>
+          </div>
+          <span class="dot">•</span>
+          <span>2026年3月15日</span>
+          <span class="dot">•</span>
+          <span>12 分钟阅读</span>
+          <span class="dot">•</span>
+          <span>2,340 次阅读</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Post Detail Layout ──────────────────────────── -->
+  <div class="container post-detail-layout">
+
+    <!-- Post Content -->
+    <article class="post-content">
+
+      <!-- Cover Image Placeholder -->
+      <div class="post-cover-placeholder" role="img" aria-label="文章封面图：Kubernetes 调度">☸️</div>
+
+      <h2>前言</h2>
+      <p>
+        Kubernetes（k8s）是目前最流行的容器编排系统。其核心功能之一就是<strong>调度（Scheduling）</strong>——
+        决定将 Pod 部署到哪个 Node 上运行。理解调度原理，有助于我们在生产环境中更精细地管控资源、提升集群利用率。
+      </p>
+
+      <h2>调度器架构概览</h2>
+      <p>
+        kube-scheduler 是 Kubernetes 的默认调度器，以独立进程方式运行，通过 Watch API Server 感知
+        未绑定（Unscheduled）的 Pod，并将其与合适的 Node 进行绑定。
+      </p>
+      <p>整个调度流程分为三个主要阶段：</p>
+      <ol>
+        <li><strong>预选（Filtering）</strong>：过滤掉不满足 Pod 约束条件的 Node。</li>
+        <li><strong>优选（Scoring）</strong>：对通过预选的 Node 打分，选出最优节点。</li>
+        <li><strong>绑定（Binding）</strong>：将 Pod 绑定到得分最高的 Node 上。</li>
+      </ol>
+
+      <blockquote>
+        💡 从 Kubernetes 1.19 开始，调度器引入了 <strong>调度框架（Scheduling Framework）</strong>，
+        提供了更灵活的插件化扩展点，允许用户自定义调度逻辑。
+      </blockquote>
+
+      <h2>预选阶段（Filtering）</h2>
+      <p>预选阶段会对所有可用 Node 逐一执行一系列<strong>过滤插件</strong>。常见的过滤条件包括：</p>
+      <ul>
+        <li><code>NodeResourcesFit</code>：节点剩余资源是否满足 Pod 的 requests。</li>
+        <li><code>NodeSelector</code>：节点标签是否匹配 Pod 的 <code>nodeSelector</code>。</li>
+        <li><code>TaintToleration</code>：节点污点（Taint）是否被 Pod 容忍（Toleration）。</li>
+        <li><code>PodAffinity / PodAntiAffinity</code>：亲和性与反亲和性规则。</li>
+      </ul>
+
+      <h2>优选阶段（Scoring）</h2>
+      <p>通过预选的 Node 进入优选阶段。调度器对每个 Node 运行打分插件，最终得分为各插件分值的加权和。</p>
+      <p>常见打分插件：</p>
+      <ul>
+        <li><code>LeastAllocated</code>：优先选择资源使用率低的节点，均衡负载。</li>
+        <li><code>NodeAffinity</code>：匹配节点亲和性规则，越匹配分值越高。</li>
+        <li><code>ImageLocality</code>：节点上已存在所需镜像则加分，减少拉取延迟。</li>
+      </ul>
+
+      <h2>示例：为 Pod 设置节点亲和性</h2>
+      <pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/arch
+            operator: In
+            values:
+            - amd64
+  containers:
+  - name: app
+    image: nginx:1.25
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "256Mi"</code></pre>
+
+      <h2>自定义调度器插件</h2>
+      <p>
+        借助调度框架，开发者可以实现自定义插件并注册到调度器中。下面是一个用 Go 编写的最简单的 Filter 插件示例：
+      </p>
+      <pre><code>package myplugin
+
+import (
+    "context"
+    v1 "k8s.io/api/core/v1"
+    "k8s.io/kubernetes/pkg/scheduler/framework"
+)
+
+type MyPlugin struct{}
+
+const Name = "MyPlugin"
+
+func (p *MyPlugin) Name() string { return Name }
+
+func (p *MyPlugin) Filter(
+    ctx context.Context,
+    state *framework.CycleState,
+    pod *v1.Pod,
+    nodeInfo *framework.NodeInfo,
+) *framework.Status {
+    // 自定义过滤逻辑：跳过标记为 maintenance 的节点
+    if nodeInfo.Node().Labels["status"] == "maintenance" {
+        return framework.NewStatus(framework.Unschedulable, "node is under maintenance")
+    }
+    return nil
+}</code></pre>
+
+      <h2>常见调度问题排查</h2>
+      <p>当 Pod 长时间处于 <code>Pending</code> 状态时，可通过以下命令排查：</p>
+      <pre><code># 查看 Pod 事件
+kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;
+
+# 查看调度器日志
+kubectl logs -n kube-system \
+  $(kubectl get pods -n kube-system -l component=kube-scheduler -o name) \
+  --tail=50</code></pre>
+      <p>常见原因包括：资源不足、亲和性规则过于严格、污点未被容忍等。</p>
+
+      <h2>总结</h2>
+      <p>
+        Kubernetes 调度器通过预选→优选→绑定三阶段为每个 Pod 找到最合适的 Node。
+        理解其中的插件机制，不仅有助于日常排查问题，也能让我们根据业务需求编写自定义调度策略，实现更精细的资源管控。
+      </p>
+
+      <hr class="divider" />
+
+      <!-- Post Navigation -->
+      <nav class="post-nav" aria-label="文章导航">
+        <a href="post.html" class="post-nav-btn prev">
+          <div class="direction">← 上一篇</div>
+          <div class="nav-title">Linux 性能调优指南</div>
+        </a>
+        <a href="post.html" class="post-nav-btn next">
+          <div class="direction">下一篇 →</div>
+          <div class="nav-title">使用 Docker Compose 搭建本地开发环境</div>
+        </a>
+      </nav>
+
+    </article>
+
+    <!-- ── Sidebar ───────────────────────────────────── -->
+    <aside class="sidebar">
+
+      <!-- Profile Widget -->
+      <div class="widget profile-widget">
+        <div class="profile-avatar">B</div>
+        <div class="profile-name">博客作者</div>
+        <div class="profile-bio">云原生 & 后端开发工程师 · 热爱开源技术与分享</div>
+        <div class="social-links">
+          <a href="https://github.com/Coke0807" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub">🐙</a>
+          <a href="about.html" class="social-link" title="关于我">👤</a>
+        </div>
+      </div>
+
+      <!-- Table of Contents Widget -->
+      <div class="widget">
+        <div class="widget-title">📋 文章目录</div>
+        <ul class="recent-list">
+          <li class="recent-item">
+            <div class="recent-num">1</div>
+            <div><a href="#" onclick="return false;">前言</a></div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">2</div>
+            <div><a href="#" onclick="return false;">调度器架构概览</a></div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">3</div>
+            <div><a href="#" onclick="return false;">预选阶段</a></div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">4</div>
+            <div><a href="#" onclick="return false;">优选阶段</a></div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">5</div>
+            <div><a href="#" onclick="return false;">自定义调度器插件</a></div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">6</div>
+            <div><a href="#" onclick="return false;">问题排查</a></div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">7</div>
+            <div><a href="#" onclick="return false;">总结</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Related Posts Widget -->
+      <div class="widget">
+        <div class="widget-title">🔗 相关文章</div>
+        <ul class="recent-list">
+          <li class="recent-item">
+            <div class="recent-num">→</div>
+            <div>
+              <a href="post.html">Helm Chart 编写与发布</a>
+              <div class="recent-date">2026-02-08</div>
+            </div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">→</div>
+            <div>
+              <a href="post.html">CI/CD 流水线最佳实践</a>
+              <div class="recent-date">2026-02-28</div>
+            </div>
+          </li>
+          <li class="recent-item">
+            <div class="recent-num">→</div>
+            <div>
+              <a href="post.html">使用 Docker Compose 搭建本地开发环境</a>
+              <div class="recent-date">2026-03-10</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ── Footer ──────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-icon">✍️</div>
+            BolgWeb
+          </div>
+          <p>专注于云原生、Kubernetes 与后端开发的个人技术博客，记录技术成长之路。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="post.html">文章详情</a></li>
+            <li><a href="about.html">关于我</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>热门标签</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Kubernetes</a></li>
+            <li><a href="index.html">Docker</a></li>
+            <li><a href="index.html">Go</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BolgWeb · 用 ❤️ 构建</span>
+        <span>基于 Nginx · 部署在 Kubernetes</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">↑</button>
+
+</body>
+</html>
